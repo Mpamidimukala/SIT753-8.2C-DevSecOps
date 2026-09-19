@@ -45,11 +45,11 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 sh '''
-                    curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip
-                    unzip -q sonar-scanner.zip
-                    ./sonar-scanner-7.2.0.5079-linux-x64/bin/sonar-scanner
-                '''
-            }
+    curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip
+    rm -rf sonar-scanner-7.2.0.5079-linux-x64
+    unzip -oq sonar-scanner.zip
+    ./sonar-scanner-7.2.0.5079-linux-x64/bin/sonar-scanner
+'''            }
         }
     }
 }
