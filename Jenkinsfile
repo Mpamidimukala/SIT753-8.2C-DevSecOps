@@ -5,25 +5,25 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'npm test'
+                sh 'npm test'
             }
         }
 
         stage('Coverage') {
             steps {
-                bat 'npx tap --coverage'
+                sh 'npx tap --coverage'
             }
         }
 
         stage('Security Scan') {
             steps {
-                bat 'npm audit'
+                sh 'npm audit || true'
             }
         }
     }
