@@ -26,7 +26,32 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || true'
+                script {
+                    def testStatus = sh(
+                        script: 'npm test',
+                        returnStatus: true
+                    )
+
+                    env.TEST_STATUS = testStatus == 0 ? 'SUCCESS' : 'FAILURE'
+                }
+            }
+
+            post {
+                always {
+                    emailext(
+                        subject: "Jenkins - Run Tests - ${env.TEST_STATUS}",
+                        body: """Run Tests stage completed.
+
+Status: ${env.TEST_STATUS}
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+""",
+                        to: 'YOUR_GMAIL@gmail.com',
+                        attachLog: true,
+                        compressLog: true
+                    )
+                }
             }
         }
 
@@ -38,18 +63,44 @@ pipeline {
 
         stage('NPM Audit (Security Scan)') {
             steps {
-                sh 'npm audit || true'
+                script {
+                    def auditStatus = sh(
+                        script: 'npm audit',
+                        returnStatus: true
+                    )
+
+                    env.AUDIT_STATUS = auditStatus == 0 ? 'SUCCESS' : 'FAILURE'
+                }
+            }
+
+            post {
+                always {
+                    emailext(
+                        subject: "Jenkins - Security Scan - ${env.AUDIT_STATUS}",
+                        body: """NPM Audit Security Scan completed.
+
+Status: ${env.AUDIT_STATUS}
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+""",
+                        to: 'YOUR_GMAIL@gmail.com',
+                        attachLog: true,
+                        compressLog: true
+                    )
+                }
             }
         }
 
         stage('SonarCloud Analysis') {
             steps {
                 sh '''
-    curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip
-    rm -rf sonar-scanner-7.2.0.5079-linux-x64
-    unzip -oq sonar-scanner.zip
-    ./sonar-scanner-7.2.0.5079-linux-x64/bin/sonar-scanner
-'''            }
+                    curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip
+                    rm -rf sonar-scanner-7.2.0.5079-linux-x64
+                    unzip -oq sonar-scanner.zip
+                    ./sonar-scanner-7.2.0.5079-linux-x64/bin/sonar-scanner
+                '''
+            }
         }
     }
 }
