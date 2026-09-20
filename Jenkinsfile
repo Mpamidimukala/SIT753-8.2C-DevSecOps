@@ -47,7 +47,7 @@ Job: ${env.JOB_NAME}
 Build: #${env.BUILD_NUMBER}
 Build URL: ${env.BUILD_URL}
 """,
-                        to: 'YOUR_GMAIL@gmail.com',
+                        to: 'monishpamidimukala@gmail.com',
                         attachLog: true,
                         compressLog: true
                     )
@@ -84,7 +84,7 @@ Job: ${env.JOB_NAME}
 Build: #${env.BUILD_NUMBER}
 Build URL: ${env.BUILD_URL}
 """,
-                        to: 'YOUR_GMAIL@gmail.com',
+                        to: 'monishpamidimukala@gmail.com',
                         attachLog: true,
                         compressLog: true
                     )
