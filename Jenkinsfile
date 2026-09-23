@@ -49,7 +49,7 @@ Build URL: ${env.BUILD_URL}
 """,
                         to: 'monishpamidimukala@gmail.com',
                         attachLog: true,
-                        compressLog: true
+                        compressLog: fasle
                     )
                 }
             }
@@ -86,7 +86,7 @@ Build URL: ${env.BUILD_URL}
 """,
                         to: 'monishpamidimukala@gmail.com',
                         attachLog: true,
-                        compressLog: true
+                        compressLog: false
                     )
                 }
             }
