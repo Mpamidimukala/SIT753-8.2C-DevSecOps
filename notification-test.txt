@@ -1,1 +1,2 @@
 Notification test 
+SCM trigger demonstration
